@@ -176,6 +176,14 @@
       var amount = $("#transaction-amount").val();
       var category = $("#transaction-category").val();
       if (name && amount && category) {
+        var tempAmount = parseInt(amount);
+        var tempBalance = parseInt(localStorage.getItem('totalBalance'));
+        if (isNaN(tempBalance)) {
+          tempBalance = 0;
+        }
+        var balance = tempBalance + tempAmount;
+        localStorage.setItem('totalBalance', balance);
+          
         alert("Transaksi sukses!");
         window.location.href = "main.html";
       } else {
