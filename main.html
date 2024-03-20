@@ -19,6 +19,15 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <!-- CSS Files -->
 <link id="pagestyle" href="material-kit-master/assets/css/material-kit.css?v=3.0.4" rel="stylesheet" type="text/css" />
+<style>
+  .transaction-item {
+      border: 2px solid #ccc;
+      border-radius: 10px; 
+      padding: 10px;
+      margin-bottom: 10px;
+  }
+</style>
+
 </head>
 <body class="index-page bg-gray-200">
 <!-- Navbar -->
@@ -95,14 +104,16 @@
             <div class="back back-background" style="background-image: url(https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80); background-size: cover;">
               <div class="card-body pt-7 text-center">
                 <!--Button halaman income dan outcome-->
-                    <a href="income.html" class="btn btn-primary">Income</a>
-                    <a href="outcome.html" class="btn btn-danger">Outcome</a>
+                    <a href="income.html" class="btn btn-warning">Income</a>
+                    <a href="outcome.html" class="btn btn-warning">Outcome</a>
+                    <a href="#" class="btn btn-danger" onclick="resetLocalStorage()">Reset List</a>
                 <!--End-->
               </div>
             </div>
           </div>
         </div>
       </div>
+      <br>
       <!--Daftar transaksi-->
       <div class="col-lg-8">
         <h2>Daftar Transaksi</h2>
@@ -121,7 +132,7 @@
       <div class="col-12">
         <div class="text-center">
           <p class="text-dark my-4 text-sm font-weight-normal">
-            All rights reserved. Copyright © <script>document.write(new Date().getFullYear())</script> Material Kit by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            Made By Kelompok 10
           </p>
         </div>
       </div>
@@ -167,49 +178,62 @@
     };
   }
 </script>
+
 <script>
-    function handleIncomeFormSubmit(event) {
-        event.preventDefault();
-        const name = document.getElementById('transaction-name').value;
-        const amount = document.getElementById('transaction-amount').value;
-        const category = 'Income'; // Set kategori ke 'Income'
-        if (name && amount) { // Kategori tidak perlu diperiksa di sini karena kategori selalu 'Income'
-            transactions.push({ name, amount, category });
-            displayTransactions();
-            updateBalance();
-        } else {
-            alert("Transaksi belum selesai, silakan lengkapi formulir!");
-        }
-    }
+  const incomeTransactions = JSON.parse(localStorage.getItem('incomeTransactions')) || [];
+  const outcomeTransactions = JSON.parse(localStorage.getItem('outcomeTransactions')) || [];
 
-    function handleOutcomeFormSubmit(event) {
-        event.preventDefault();
-        const name = document.getElementById('outcome-name').value;
-        const amount = document.getElementById('outcome-amount').value;
-        const category = 'Outcome';
-        if (name && amount) { 
-            transactions.push({ name, amount, category });
-            displayTransactions();
-            updateBalance();
-        } else {
-            alert("Transaksi belum selesai, silakan lengkapi formulir!");
-        }
-    }
+  const transactionListDiv = document.getElementById('transaction-list');
 
-    function initPage() {
-        if (transactions.length === 0) {
-            document.getElementById('transaction-list').innerHTML = "<p>Belum ada transaksi sejauh ini.</p>";
-        } else {
-            displayTransactions();
-        }
-        updateBalance();
-        // Menambahkan event listener untuk masing-masing form
-        document.getElementById('income-form-input').addEventListener('submit', handleIncomeFormSubmit);
-        document.getElementById('outcome-form-input').addEventListener('submit', handleOutcomeFormSubmit);
-    }
+  function displayTransactions(transactions, color) {
+      if (transactions.length > 0) {
+          transactions.forEach(function (transaction, index) {
+              const transactionDiv = document.createElement('div');
+              transactionDiv.classList.add('transaction-item');
+              transactionDiv.style.backgroundColor = color;
+              transactionDiv.innerHTML = `
+                  <h3>Transaksi ${color === 'lightgreen' ? 'Income' : 'Outcome'} ${index + 1}</h3>
+                  <p><strong>Nama Transaksi:</strong> ${transaction.name}</p>
+                  <p><strong>Nominal:</strong> ${transaction.amount}</p>
+                  <p><strong>Kategori:</strong> ${transaction.category}</p>
+              `;
+              transactionListDiv.appendChild(transactionDiv);
+          });
+      } else {
+          transactionListDiv.innerHTML += `<p>Belum ada transaksi ${color === 'lightgreen' ? 'income' : 'outcome'}.</p>`;
+      }
+  }
 
-    initPage();
+  displayTransactions(incomeTransactions, 'lightgreen');
+
+  displayTransactions(outcomeTransactions, 'lightcoral');
+
+  function calculateTotalBalance(incomeTransactions, outcomeTransactions) {
+      const totalIncome = incomeTransactions.reduce((acc, curr) => acc + parseInt(curr.amount), 0);
+      const totalOutcome = outcomeTransactions.reduce((acc, curr) => acc + parseInt(curr.amount), 0);
+      const totalBalance = totalIncome - totalOutcome;
+
+      return totalBalance;
+  }
+  function formatToRupiah(number) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
+  }
+  const totalBalance = calculateTotalBalance(incomeTransactions, outcomeTransactions);
+  document.getElementById('current-balance').innerText = formatToRupiah(totalBalance);
 </script>
+
+<script>
+  function resetLocalStorage() {
+      localStorage.removeItem('incomeTransactions');
+      localStorage.removeItem('outcomeTransactions');
+
+      alert('Data transaksi telah direset.');
+
+      window.location.href = 'main.html';
+  }
+</script>
+
+
 <script>
   function tampilkanNama() {
     var nama = localStorage.getItem('namaPengguna');

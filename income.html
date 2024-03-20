@@ -88,13 +88,13 @@
         <h2>Income</h2>
         <form id="income-form-input">
             <div class="input-group input-group-dynamic">
-                <label for="transaction-name" class="form-label">Nama Transaksi</label>
-                <input type="text" class="form-control" id="transaction-name" required>
+                <label for="transaction-name" class="form-label"></label>
+                <input type="text" class="form-control" placeholder="Nama Transaksi" id="transaction-name" required>
             </div>
             <br>
             <div class="input-group input-group-dynamic">
-                <label for="transaction-amount" class="form-label">Nominal Transaksi</label>
-                <input type="number" class="form-control" id="transaction-amount" required>
+                <label for="transaction-amount" class="form-label"></label>
+                <input type="number" class="form-control" placeholder="Nominal Transaksi" id="transaction-amount" required>
             </div>
             <br>
             <div class="mb-3">
@@ -115,13 +115,30 @@
     </div>
 </section>
 
+<div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="transactionModalLabel">Status Transaksi</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="transactionModalBody">
+              
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 <footer class="footer pt-5 mt-5">
   <div class="container">
     <div class=" row">
       <div class="col-12">
         <div class="text-center">
           <p class="text-dark my-4 text-sm font-weight-normal">
-            All rights reserved. Copyright © <script>document.write(new Date().getFullYear())</script> Material Kit by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            Made By Kelompok 10
           </p>
         </div>
       </div>
@@ -169,21 +186,42 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  $(document).ready(function() {
-    $("#income-form-input").submit(function(event) {
+  const incomeForm = document.getElementById('income-form-input');
+
+  incomeForm.addEventListener('submit', function (event) {
       event.preventDefault();
-      var name = $("#transaction-name").val();
-      var amount = $("#transaction-amount").val();
-      var category = $("#transaction-category").val();
-      if (name && amount && category) {
-        alert("Transaksi sukses!");
-        window.location.href = "main.html";
+
+      const transactionName = document.getElementById('transaction-name').value;
+      const transactionAmount = document.getElementById('transaction-amount').value;
+      const transactionCategory = document.getElementById('transaction-category').value;
+
+      let transactions = JSON.parse(localStorage.getItem('incomeTransactions')) || [];
+
+      if (transactionName && transactionAmount && transactionCategory) {
+          transactions.push({
+              name: transactionName,
+              amount: transactionAmount,
+              category: transactionCategory
+          });
+
+          localStorage.setItem('incomeTransactions', JSON.stringify(transactions));
+
+          document.getElementById('transactionModalBody').innerText = "Transaksi sukses!";
+          $('#transactionModal').modal('show');
+
+          setTimeout(function () {
+              window.location.href = 'main.html';
+          }, 2000);
       } else {
-        alert("Transaksi belum selesai, silakan lengkapi formulir!");
+          document.getElementById('transactionModalBody').innerText = "Transaksi belum selesai, silakan lengkapi formulir!";
+          $('#transactionModal').modal('show');
       }
-    });
   });
 </script>
+
+
+
+
 <script>
   function tampilkanNama() {
     var nama = localStorage.getItem('namaPengguna');
