@@ -208,6 +208,14 @@
         document.getElementById('outcome-form-input').addEventListener('submit', handleOutcomeFormSubmit);
     }
 
+    function updateBalance() {
+        const tempBalance = parseInt(localStorage.getItem('totalBalance')) || 0;
+        if (isNaN(tempBalance)) {
+          tempBalance = 0;
+        }
+        document.getElementById('current-balance').innerText = "Rp " + tempBalance; // Update balance di interface
+    }
+
     initPage();
 </script>
 <script>
