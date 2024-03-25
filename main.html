@@ -88,33 +88,32 @@
 </header>
 
 <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
-<section class="my-5 py-5">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-4 ms-auto me-auto p-lg-4 mt-lg-0 mt-4">
-        <div class="rotating-card-container">
-          <div class="card card-rotate card-background card-background-mask-primary shadow-primary mt-md-0 mt-5">
-            <div class="front front-background">
-              <div class="card-body py-7 text-center">
-                <!-- Tampilan Saldo sekarang-->
-                    <h5 class="text-white">Saldo Sekarang</h5>
-                    <p id="current-balance" class="text-white">Rp 0</p>
-                <!--End-->
-              </div>
-            </div>
-            <div class="back back-background" style="background-image: url(https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80); background-size: cover;">
-              <div class="card-body pt-7 text-center">
-                <!--Button halaman income dan outcome-->
-                    <a href="income.html" class="btn btn-warning">Income</a>
-                    <a href="Outcome.html" class="btn btn-warning">Outcome</a>
-                    <a href="#" class="btn btn-danger" onclick="resetLocalStorage()">Reset List</a>
-                <!--End-->
-              </div>
-            </div>
+  <div class="col-lg-4 ms-auto me-auto p-lg-4 mt-lg-0 mt-4">
+    <div class="rotating-card-container">
+      <div class="card card-rotate card-background card-background-mask-primary shadow-primary mt-md-0 mt-5">
+        <div class="front front-background">
+          <div class="card-body py-7 text-center">
+            <!-- Tampilan Saldo sekarang-->
+                <h5 class="text-white">Saldo Sekarang</h5>
+                <p id="current-balance" class="text-white">Rp 0</p>
+            <!--End-->
+          </div>
+        </div>
+        <div class="back back-background" style="background-image: url(https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80); background-size: cover;">
+          <div class="card-body pt-7 text-center">
+            <!--Button halaman income dan outcome-->
+                <a href="income.html" class="btn btn-warning">Income</a>
+                <a href="Outcome.html" class="btn btn-warning">Outcome</a>
+                <a href="#" class="btn btn-danger" onclick="resetLocalStorage()">Reset List</a>
+            <!--End-->
           </div>
         </div>
       </div>
-      <br>
+    </div>
+  </div>
+<section class="my-5 py-5">
+  <div class="container">
+    <div class="row align-items-center">
       <!--Daftar transaksi-->
       <div class="col-lg-8">
         <h2>Daftar Transaksi</h2>
